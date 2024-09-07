@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>FrameMaker</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #111;
+            background: url('background.png') no-repeat center center fixed;
+            background-size: cover;
+            font-family:'Poppins', sans-serif;
+            overflow: hidden;
+        }
+
+        .text-above-carousel {
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 30px;
+            color: rgba(255, 69, 0, 0.9); /* Color similar a las sombras */
+            text-shadow: 0 0 10px rgba(255, 69, 0, 0.2), 
+                         0 0 20px rgba(255, 0, 0, 0.2); /* Sombra sutil */
+            z-index: 1000;
+        }
+
+        #carousel-container {
+            width: 80%;
+            height: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1500px;
+        }
+
+        #carousel {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 1s linear;
+        }
+
+        .carousel-item {
+            width: 200px;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+            border-radius: 10px;
+            transform-origin: center center;
+            box-shadow: 0 0 5px rgba(255, 165, 0, 0.3);
+        }
+
+        .carousel-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2), 0 0 15px rgba(255, 255, 0, 0.2), 0 0 15px rgba(255, 69, 0, 0.2);
+        }
+
+        .carousel-item.expanded {
+            width: 90vw;
+            height: 90vh;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) !important;
+            z-index: 1000;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            cursor: default;
+            box-shadow: none;
+            transition: all 0.5s ease-in-out;
+        }
+
+        #info-panel {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        #controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 1001;
+        }
+
+        .control-btn {
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .control-btn.pause {
+            background-color: rgba(255, 0, 0, 0.2);
+        }
+
+        .control-btn.pause:hover {
+            background-color: rgba(255, 0, 0, 0.4);
+        }
+
+        .control-btn.resume {
+            background-color: rgba(0, 255, 0, 0.2);
+        }
+
+        .control-btn.resume:hover {
+            background-color: rgba(0, 255, 0, 0.4);
+        }
+
+        #resume-carousel-btn {
+            display: none;
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #resume-carousel-btn:hover {
+            background-color: rgba(0, 0, 255, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="text-above-carousel">
+        <p><b>Select</b> the image you like the most, then <b>share the reason</b> for <b>your choice.</b></p>
+    </div>
+
+    <div id="carousel-container">
+        <div id="carousel">
+            <div class="carousel-item" style="background-image: url('img1.png')" data-info="Imagen 1"></div>
+            <div class="carousel-item" style="background-image: url('img2.png')" data-info="Imagen 2"></div>
+            <div class="carousel-item" style="background-image: url('img3.png')" data-info="Imagen 3"></div>
+            <div class="carousel-item" style="background-image: url('img4.png')" data-info="Imagen 4"></div>
+            <div class="carousel-item" style="background-image: url('img5.png')" data-info="Imagen 5"></div>
+            <div class="carousel-item" style="background-image: url('img6.png')" data-info="Imagen 6"></div>
+            <div class="carousel-item" style="background-image: url('img7.png')" data-info="Imagen 7"></div>
+            <div class="carousel-item" style="background-image: url('img8.png')" data-info="Imagen 8"></div>
+            <div class="carousel-item" style="background-image: url('img9.png')" data-info="Imagen 9"></div>
+            <div class="carousel-item" style="background-image: url('img10.png')" data-info="Imagen 10"></div>
+            <div class="carousel-item" style="background-image: url('img11.png')" data-info="Imagen 11"></div>
+            <div class="carousel-item" style="background-image: url('img12.png')" data-info="Imagen 12"></div>
+            <div class="carousel-item" style="background-image: url('img13.png')" data-info="Imagen 13"></div>
+            <div class="carousel-item" style="background-image: url('img14.png')" data-info="Imagen 14"></div>
+            <div class="carousel-item" style="background-image: url('img15.png')" data-info="Imagen 15"></div>
+            <div class="carousel-item" style="background-image: url('img16.png')" data-info="Imagen 16"></div>
+        </div>
+    </div>
+
+    <div id="info-panel"></div>
+
+    <div id="controls">
+        <button id="pause-btn" class="control-btn pause">Pause</button>
+        <button id="resume-carousel-btn">Resume</button>
+    </div>
+
+    <script>
+        const carousel = document.getElementById('carousel');
+        const items = document.querySelectorAll('.carousel-item');
+        const angleStep = 360 / items.length;
+        const radius = 550;
+        let isPaused = false;
+        let expandedItem = null;
+
+        // Posicionar elementos en un círculo en el eje central
+        function positionItems() {
+            items.forEach((item, index) => {
+                const angle = angleStep * index;
+                item.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+            });
+        }
+
+        // Configuración inicial
+        positionItems();
+
+        let rotation = 0;
+        const rotationSpeed = 0.05; // Velocidad de rotación ajustada
+
+        function rotateCarousel() {
+            if (!isPaused) {
+                rotation = (rotation + rotationSpeed) % 360;
+                carousel.style.transform = `rotateY(${rotation}deg)`;
+            }
+            requestAnimationFrame(rotateCarousel);
+        }
+
+        rotateCarousel();
+
+        items.forEach((item) => {
+            item.addEventListener('click', (event) => {
+                event.stopPropagation();
+
+                // Crear un "clone" de la imagen para evitar conflictos
+                if (expandedItem) {
+                    expandedItem.remove();
+                    expandedItem = null;
+                }
+
+                const clone = item.cloneNode(true);
+                clone.classList.add('expanded');
+                clone.style.boxShadow = 'none';
+                document.body.appendChild(clone);
+                expandedItem = clone;
+
+                // Mostrar solo el botón de reanudar cuando la imagen esté expandida
+                document.getElementById('pause-btn').style.display = 'none';
+                document.getElementById('resume-carousel-btn').style.display = 'block';
+
+                // Añadir evento para cerrar la imagen al hacer clic fuera
+                document.addEventListener('click', (e) => {
+                    if (expandedItem && !expandedItem.contains(e.target)) {
+                        expandedItem.remove();
+                        expandedItem = null;
+                        document.getElementById('resume-carousel-btn').style.display = 'none'; // Ocultar botón
+                        document.getElementById('pause-btn').style.display = 'block'; // Mostrar botón de pausa
+                    }
+                }, { once: true });
+            });
+
+            item.addEventListener('mouseover', () => {
+                item.style.boxShadow = '0 0 15px rgba(255, 0, 0, 0.3), 0 0 15px rgba(255, 255, 0, 0.3), 0 0 15px rgba(255, 69, 0, 0.3)'; // Sombra más visible
+            });
+
+            item.addEventListener('mouseout', () => {
+                item.style.boxShadow = '0 0 5px rgba(255, 165, 0, 0.3)'; // Volver a la sombra inicial
+            });
+        });
+
+        document.getElementById('pause-btn').addEventListener('click', () => {
+            isPaused = true;
+            document.getElementById('resume-carousel-btn').style.display = 'block';
+        });
+
+        document.getElementById('resume-carousel-btn').addEventListener('click', () => {
+            isPaused = false;
+            document.getElementById('resume-carousel-btn').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
